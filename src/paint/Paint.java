@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -20,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.Vector;
 
 import javax.swing.border.LineBorder;
@@ -211,32 +213,39 @@ public class Paint extends JFrame {
 		
 		// Toggle buttons de formes
 		triangle = new JToggleButton("");
+		triangle.setIcon(new ImageIcon(".\\icones\\triangle.gif"));
 		triangle.setBounds(328, 28, 35, 29);
 		outils.add(triangle);
 		
 		cercle = new JToggleButton("");
+		cercle.setIcon(new ImageIcon(".\\icones\\cercle.gif"));
 		cercle.setBounds(281, 28, 35, 29);
 		outils.add(cercle);
 		
 		rectangle = new JToggleButton("");
+		rectangle.setIcon(new ImageIcon(".\\icones\\rectangle.gif"));
 		rectangle.setBounds(234, 28, 35, 29);
 		outils.add(rectangle);
 		
 		// Toggle buttons d'outils de dessin
 		crayon = new JToggleButton("");
+		crayon.setIcon(new ImageIcon(".\\icones\\crayon.gif"));
 		crayon.setSelected(true);
 		crayon.setBounds(6, 5, 28, 22);
 		outils.add(crayon);
 		
 		efface = new JToggleButton("");
+		efface.setIcon(new ImageIcon(".\\icones\\efface.gif"));
 		efface.setBounds(46, 5, 28, 22);
 		outils.add(efface);
 		
 		pipette = new JToggleButton("");
+		pipette.setIcon(new ImageIcon(".\\icones\\pipette.gif"));
 		pipette.setBounds(86, 5, 28, 22);
 		outils.add(pipette);
 		
 		potPeinture = new JToggleButton("");
+		potPeinture.setIcon(new ImageIcon(".\\icones\\remplissage.gif"));
 		potPeinture.setBounds(126, 5, 28, 22);
 		outils.add(potPeinture);
 		
@@ -251,6 +260,7 @@ public class Paint extends JFrame {
 		
 		// Bouton pour enregistrer
 		enregistre = new JButton("");
+		enregistre.setIcon(new ImageIcon(".\\icones\\save.gif"));
 		enregistre.setBounds(188, 5, 28, 22);
 		outils.add(enregistre);
 		
@@ -298,7 +308,9 @@ public class Paint extends JFrame {
 		// 	Listeners du JTextfield "tailleTrait" et du JButton "enregistre"
 		tailleTrait.addActionListener(ecOutils);
 		enregistre.addActionListener(ecOutils);
-
+		
+		
+		
 	}
 	
 	//CD - 1
@@ -351,6 +363,17 @@ public class Paint extends JFrame {
 			}
 		}
 	}
+	
+	//Fonction pour la pipette
+	public BufferedImage recupererImage ( JPanel surface ) {
+    	Dimension size = surface.getSize();
+    	BufferedImage image = new BufferedImage( size.width, size.height, BufferedImage.TYPE_INT_RGB);
+    	Graphics2D g2 = image.createGraphics();
+    	surface.paint(g2);
+    	
+    	return image;
+     }
+
 	
 	//G� - 1
 	private class Ecouteur implements MouseListener, MouseMotionListener, ActionListener {
@@ -424,6 +447,20 @@ public class Paint extends JFrame {
 			
 			if (potPeinture.isSelected() && e.getSource() == surface) {
 				repaint();
+			}
+			else if (pipette.isSelected() && e.getSource() == surface) {
+				BufferedImage image = recupererImage(surface);
+				int pixel = image.getRGB(e.getX(), e.getY());
+				Color couleurPixel = new Color(pixel);
+				if (couleur1.isSelected()) {
+					coul1 = couleurPixel;
+					labelCouleur1.setBackground(coul1);
+				}
+				else if (couleur2.isSelected()) {
+					coul2 = couleurPixel;
+					labelCouleur2.setBackground(coul2);
+				}
+				crayon.setSelected(true);
 			}
 		}
 
