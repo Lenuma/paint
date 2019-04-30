@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -22,6 +23,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.border.LineBorder;
@@ -31,6 +34,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Dimension;
+import javax.swing.JFileChooser;
 
 public class Paint extends JFrame {
 	
@@ -398,7 +402,6 @@ public class Paint extends JFrame {
 			// TODO Auto-generated method stub
 			
 		}
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Color ColorSelected = null;
@@ -556,6 +559,7 @@ public class Paint extends JFrame {
 			Trait traitEfface = new Trait();
 			Trait traitRectangle = new Trait();
 			Trait traitCercle = new Trait();
+			Trait traitTriangle = new Trait();
 			
 		}
 
@@ -568,6 +572,22 @@ public class Paint extends JFrame {
 				coul2 = surface.getBackground();
 				labelCouleur2.setBackground(coul2);
 				couleur2.setSelected(true);
+			}
+			else if (e.getSource() == enregistre) {
+				File fichier;
+				JFileChooser c = new JFileChooser();
+				
+				c.setDialogTitle("JustAnotherPaintProject");
+				int selectVal = c.showSaveDialog(Paint.this);
+				
+				if (selectVal == JFileChooser.APPROVE_OPTION) {
+					fichier = c.getSelectedFile();
+					try {
+						ImageIO.write(recupererImage(surface), "png", new File(fichier.getAbsolutePath() + ".png"));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 			
 			
