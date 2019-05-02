@@ -52,7 +52,6 @@ public class Paint extends JFrame {
 	private Color coul2;
 	private boolean surfaceInit = true;
 	
-	
 	private JPanel couleurs;
 	private JLabel magenta;
 	private JLabel rose;
@@ -100,6 +99,7 @@ public class Paint extends JFrame {
 	 *                Constructeur                *
 	 **********************************************/
 	public Paint() {
+		setTitle("Paint");
 		setBounds(100, 100, 800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -274,20 +274,17 @@ public class Paint extends JFrame {
 		outils.add(labelTrait);
 		
 		tailleTrait = new JTextField();
+		tailleTrait.setText("1");
 		tailleTrait.setBounds(106, 35, 35, 22);
 		outils.add(tailleTrait);
 		tailleTrait.setColumns(10);
-		
-		
-		
-		
 		
 		// CD 3.2
 		surface = new surfaceDessin();
 		surface.setBounds(10,100,779,450);
 		getContentPane().add(surface);
 		
-		// GÉ - 3.1
+		// G� - 3.1
 		// Listener de la zone de dessin
 		surface.addMouseListener(ecSurface);
 		surface.addMouseMotionListener(ecSurface);
@@ -301,6 +298,7 @@ public class Paint extends JFrame {
 				temp.addActionListener(ecOutils);
 			}
 		}
+		
 		// 	Listeners des couleurs
 		Component [] tabCouleur = couleurs.getComponents();
 		for (Component c : tabCouleur) {
@@ -309,12 +307,11 @@ public class Paint extends JFrame {
 				temp.addMouseListener(ecOutils);
 			}
 		}
+		
 		// 	Listeners du JTextfield "tailleTrait" et du JButton "enregistre"
 		tailleTrait.addActionListener(ecOutils);
 		enregistre.addActionListener(ecOutils);
-		
-		
-		
+			
 	}
 	
 	//CD - 1
@@ -352,9 +349,6 @@ public class Paint extends JFrame {
 			Graphics2D g2 = (Graphics2D)g;
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			
-			// 1- Dessiner seulement si le vecteur "traits" comporte au moins un élément pour ne pas créer un "outOfBoundError"
-			// 		Donner à g et g2 les propriétés des instances à dessiner
-			// 			getTaille() et getColor()
 			if (traits.size() > 0) {
 				for (int i = 0; i < traits.size(); i++) {
 					
@@ -379,7 +373,7 @@ public class Paint extends JFrame {
      }
 
 	
-	//G� - 1
+	//G� - 1
 	private class Ecouteur implements MouseListener, MouseMotionListener, ActionListener {
 
 		@Override
@@ -389,12 +383,7 @@ public class Paint extends JFrame {
 					traits.elementAt(traits.size()-1).getVectPoints().add(new Point(e.getX(),e.getY()));
 				}
 			}
-			
-			
-
 			repaint();
-			
-			
 		}
 
 		@Override
@@ -481,7 +470,7 @@ public class Paint extends JFrame {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// 1- Vérifier quel JToggleButton d'outils de dessin est sélectionné
+			// 1- V�rifier quel JToggleButton d'outils de dessin est s�lectionn�
 			if (crayon.isSelected()) {
 				
 				Trait traitDessine = new Trait();
@@ -508,10 +497,6 @@ public class Paint extends JFrame {
 				Point pointDessine = new Point(e.getX(),e.getY());
 				traitEfface.setPoint(pointDessine);
 				System.out.println("efface");
-				
-				if (tailleDuTrait != 0) {
-					traitEfface.setTaille(tailleDuTrait);
-				}
 				
 				traitEfface.setColor(coul2);	
 				traits.add(traitEfface);
@@ -589,13 +574,6 @@ public class Paint extends JFrame {
 					}
 				}
 			}
-			
-			
-			
-		
-			
-			
-			
 		}
 	}
 }
